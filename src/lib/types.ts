@@ -4,3 +4,11 @@ export type UserType = {
 	email: string;
 	avatar: string;
 };
+
+export type ResultQuery = {
+	users: UserType[];
+	pageInfo: {
+		hasNextPage: boolean;
+		startCursor: string | null;
+	};
+};

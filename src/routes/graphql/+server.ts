@@ -12,10 +12,10 @@ const yogaApp = createYoga<RequestEvent>({
 		typeDefs: schema,
 		resolvers: {
 			Query: {
+				// update conven
 				users: (source, { first, afterCursor }, context, info) => {
-					console.log(source, context, info);
 					console.log(first, afterCursor);
-					let endIndex = first + afterCursor;
+					let endIndex = parseInt(first) + parseInt(afterCursor);
 					let hasNextPage = users.length > endIndex;
 					let slicedUsers = users.slice(afterCursor - 1, endIndex - 1);
 					return {

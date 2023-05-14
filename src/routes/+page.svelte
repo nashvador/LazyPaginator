@@ -3,21 +3,22 @@
 	import { writable } from 'svelte/store';
 	import Loader from 'components/Loader.svelte';
 	import User from 'components/User.svelte';
-	import type { UserType } from 'lib/types';
+	import type { UserType, ResultQuery } from 'lib/types';
 
-	const pageSizeCurrent = 10;
-	let currentCurS = 1;
-	let isLoading = false;
+	const pageSizeCurrent = '10';
+	let currentCurS = '1';
 
 	const client = createClient({
 		url: '/graphql',
 		exchanges: [cacheExchange, fetchExchange]
 	});
 
-	const usersStore = writable([]);
+	const usersStore = writable<UserType[] | []>([]);
+	const hasNextPage = writable(true);
+	let parentElement: HTMLElement | undefined;
 
 	const queryUsers = () => {
-		const result = queryStore<{ users: userResult }>({
+		const result = queryStore<{ users: ResultQuery }>({
 			client,
 			query: gql`
 				query  {
@@ -41,6 +42,7 @@
 		result.subscribe(({ data }) => {
 			if (data) {
 				usersStore.update((users) => [...users, ...data.users.users]);
+				hasNextPage.set(data.users.pageInfo.hasNextPage);
 			}
 		});
 
@@ -49,22 +51,30 @@
 
 	let result = queryUsers();
 
-	const loadmore = () => {
+	const loadmore = async () => {
 		currentCurS += 10;
-		result = queryUsers();
+		result = await queryUsers();
+	};
+
+	const handleScroll = () => {
+		const { scrollTop, scrollHeight, clientHeight } = parentElement!;
+
+		if (scrollTop + clientHeight >= scrollHeight && hasNextPage) {
+			loadmore();
+		}
 	};
 </script>
 
-<div class="w-full h-full overflow-scroll">
+<div class="w-full h-full overflow-scroll" on:scroll={handleScroll} bind:this={parentElement}>
 	<div class="flex flex-col gap-4 items-center p-4">
+		{#each $usersStore as user (user.id)}
+			<User {user} />
+		{/each}
 		{#if $result.fetching}
 			<Loader />
-		{:else}
-			{#each $usersStore as user (user.id)}
-				<User {user} />
-			{/each}
-			{console.log($result, $usersStore)}
-			<button on:click={loadmore}>Load More</button>
+		{/if}
+		{#if $hasNextPage}
+			<div style="height:100px" />
 		{/if}
 	</div>
 </div>
