@@ -59,7 +59,7 @@
 	const handleScroll = () => {
 		const { scrollTop, scrollHeight, clientHeight } = parentElement!;
 
-		if (scrollTop + clientHeight >= scrollHeight && hasNextPage) {
+		if (scrollTop + clientHeight >= scrollHeight - 10 && $hasNextPage) {
 			loadmore();
 		}
 	};
@@ -74,7 +74,7 @@
 			<Loader />
 		{/if}
 		{#if $hasNextPage}
-			<div style="height:100px" />
+			<div style="height:0.5rem" />
 		{/if}
 	</div>
 </div>
