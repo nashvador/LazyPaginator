@@ -12,7 +12,6 @@ const yogaApp = createYoga<RequestEvent>({
 		typeDefs: schema,
 		resolvers: {
 			Query: {
-				// update conven
 				usersQueryAndPageInfo: (source, { first, afterCursor }, context, info) => {
 					let endIndex = parseInt(first) + parseInt(afterCursor);
 					let hasNextPage = users.length > endIndex;
