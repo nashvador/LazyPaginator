@@ -18,12 +18,12 @@
 	let parentElement: HTMLElement | undefined;
 
 	const queryUsers = () => {
-		const result = queryStore<{ users: ResultQuery }>({
+		const result = queryStore<{ usersQueryAndPageInfo: ResultQuery }>({
 			client,
 			query: gql`
 				query  {
-					users(first: ${String(pageSizeCurrent)}, afterCursor: ${String(currentCurS)}) {
-						users {
+					usersQueryAndPageInfo(first: ${String(pageSizeCurrent)}, afterCursor: ${String(currentCurS)}) {
+						individualUsers {
 							id
 							name
 							avatar
@@ -41,8 +41,8 @@
 
 		result.subscribe(({ data }) => {
 			if (data) {
-				usersStore.update((users) => [...users, ...data.users.users]);
-				hasNextPage.set(data.users.pageInfo.hasNextPage);
+				usersStore.update((users) => [...users, ...data.usersQueryAndPageInfo.individualUsers]);
+				hasNextPage.set(data.usersQueryAndPageInfo.pageInfo.hasNextPage);
 			}
 		});
 

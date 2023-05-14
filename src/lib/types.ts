@@ -6,7 +6,7 @@ export type UserType = {
 };
 
 export type ResultQuery = {
-	users: UserType[];
+	individualUsers: UserType[];
 	pageInfo: {
 		hasNextPage: boolean;
 		startCursor: string | null;

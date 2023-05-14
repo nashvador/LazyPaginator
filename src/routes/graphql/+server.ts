@@ -13,12 +13,12 @@ const yogaApp = createYoga<RequestEvent>({
 		resolvers: {
 			Query: {
 				// update conven
-				users: (source, { first, afterCursor }, context, info) => {
+				usersQueryAndPageInfo: (source, { first, afterCursor }, context, info) => {
 					let endIndex = parseInt(first) + parseInt(afterCursor);
 					let hasNextPage = users.length > endIndex;
 					let slicedUsers = users.slice(afterCursor - 1, endIndex - 1);
 					return {
-						users: slicedUsers,
+						individualUsers: slicedUsers,
 						pageInfo: {
 							hasNextPage: hasNextPage,
 							startCursor: endIndex
