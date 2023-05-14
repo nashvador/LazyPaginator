@@ -5,8 +5,8 @@
 	import User from 'components/User.svelte';
 	import type { UserType, ResultQuery } from 'lib/types';
 
-	const pageSizeCurrent = '10';
-	let currentCurS = '1';
+	const pageSizeCurrent = 10;
+	let currentCurS = 1;
 
 	const client = createClient({
 		url: '/graphql',
@@ -22,7 +22,7 @@
 			client,
 			query: gql`
 				query  {
-					users(first: ${pageSizeCurrent}, afterCursor: ${currentCurS}) {
+					users(first: ${String(pageSizeCurrent)}, afterCursor: ${String(currentCurS)}) {
 						users {
 							id
 							name
