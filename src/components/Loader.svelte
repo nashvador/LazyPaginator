@@ -1,4 +1,4 @@
-<span class="loader" />
+<span class="loader" id="loader" />
 
 <style lang="postcss">
 	.loader {

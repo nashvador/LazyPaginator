@@ -4,7 +4,7 @@
 	export let user: UserType;
 </script>
 
-<div class="user">
+<div class="user" id={`user${user.id}`}>
 	<img src={user.avatar} alt="Avatar" />
 	<div>
 		<h2>{user.name}</h2>

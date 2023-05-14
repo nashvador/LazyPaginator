@@ -6,7 +6,7 @@ This is a lazy paginator - as soon as you scroll down it displays more items.
 
 - Framework: Svelte
 - Testing
-  - Cypress
+  - E2E: Playwright
 - Backend-For-Frontend: GraphQL
 
 ## Getting Started
@@ -31,6 +31,10 @@ npm run dev
 ## Running Tests
 
 Before running your tests make sure that you have all the prerequisites and have ran `npm install` prior to everything.
+
+###
+
+To run your tests do `npm run test`. The test should work on atleast the chromium browsers.
 
 ## Issues I had and How I Solved Them
 
