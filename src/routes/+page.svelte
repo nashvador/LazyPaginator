@@ -15,6 +15,7 @@
 
 	const usersStore = writable<UserType[] | []>([]);
 	const hasNextPage = writable(true);
+	const cursorStore = writable(1);
 	let parentElement: HTMLElement | undefined;
 
 	const queryUsers = () => {
@@ -43,6 +44,7 @@
 			if (data) {
 				usersStore.update((users) => [...users, ...data.usersQueryAndPageInfo.individualUsers]);
 				hasNextPage.set(data.usersQueryAndPageInfo.pageInfo.hasNextPage);
+				cursorStore.set(parseInt(data.usersQueryAndPageInfo.pageInfo.startCursor!));
 			}
 		});
 
@@ -52,7 +54,7 @@
 	let result = queryUsers();
 
 	const loadmore = async () => {
-		currentCurS += 10;
+		currentCurS = $cursorStore;
 		result = await queryUsers();
 	};
 
